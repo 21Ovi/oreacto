@@ -1,0 +1,39 @@
+# Ignore source files
+src/
+
+# Ignore TypeScript configuration files
+tsconfig.json
+
+# Ignore build logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Ignore local environment files
+.env
+.env.local
+.env.*.local
+
+# Ignore test files
+__tests__/
+coverage/
+*.test.js
+*.spec.js
+*.test.ts
+*.spec.ts
+
+# Ignore Git files
+.git/
+.gitignore
+
+# Ignore node_modules (npm automatically excludes it, but for safety)
+node_modules/
+
+# Editor and system-specific files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Ignore anything unnecessary in dist
+dist/**/*.map

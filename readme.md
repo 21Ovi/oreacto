@@ -127,7 +127,7 @@ const MyComponent = ({ fetchData, hasMoreData }) => {
 
 ## License
 
-MIT © [Your Name](https://github.com/ovesh21)
+MIT © [Mohammad Ovesh](https://github.com/21Ovi)
 
 ## Contributing
 
