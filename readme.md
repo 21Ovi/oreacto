@@ -121,9 +121,20 @@ const MyComponent = ({ fetchData, hasMoreData }) => {
   - `hasMoreData` (`boolean`): Indicates if more data is available.
 
 - **Returns**: `{ loader, page, setPage }`
+
   - `loader` (`ref`): Ref for the element that triggers loading more items.
   - `page` (`number`): Current page number.
   - `setPage` (`function`): Manually update the page number.
+
+  ### `useDynamicFields`
+
+- **Parameters**:
+
+  - `parentValue` (`number | undefined`): Number of fields to generate.
+  - `hasMoreData` (`string`): Base name for the generated fields.
+  - `fieldTemplate` (`object`): Template object for each field.
+
+- **Returns**: `Array<object>`: - Array of field objects with `fieldName` and `label`.
 
 ## License
 
