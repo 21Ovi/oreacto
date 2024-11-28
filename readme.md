@@ -91,6 +91,32 @@ const MyComponent = ({ fetchData, hasMoreData }) => {
 };
 ```
 
+### 3. `useDynamicFields`
+
+Generate dynamic field objects based on a parent value. Useful for rendering dynamic forms or repeating fields based on user input.
+
+```typescript
+import { useDynamicFields } from "oreacto";
+
+const MyComponent = ({ parentValue }) => {
+  const dynamicFields = useDynamicFields(parentValue, "items", {
+    label: "Item",
+    value: "",
+  });
+
+  return (
+    <div>
+      {dynamicFields.map((field) => (
+        <div key={field.fieldName}>
+          <label>{field.label}</label>
+          <input name={field.fieldName} defaultValue={field.value} />
+        </div>
+      ))}
+    </div>
+  );
+};
+```
+
 ## API Reference
 
 ### `useRouteTitle`
@@ -147,7 +173,3 @@ Contributions are welcome! Feel free to open an issue or submit a pull request.
 ---
 
 With these hooks, you can supercharge your React app and focus on building rather than reinventing the wheel. Enjoy using `oreacto`!
-
-```
-
-```
