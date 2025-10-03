@@ -52,7 +52,7 @@ const useSmartOSearch = <T>({
   const filteredItems = useMemo(
     () =>
       _.chain(items)
-        .filter((item: any) =>
+        .filter((item) =>
           filterKeys.some((key) =>
             _.includes(_.toLower(item[key]?.toString()), _.toLower(query))
           )
