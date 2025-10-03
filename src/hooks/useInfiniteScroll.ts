@@ -56,7 +56,7 @@ const useInfiniteScroll = ({
 
   useEffect(() => {
     fetchData(page);
-  }, [page]);
+  }, [page, fetchData]);
 
   return { loader, page, setPage };
 };

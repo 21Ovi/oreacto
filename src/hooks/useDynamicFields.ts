@@ -16,7 +16,12 @@ type DynamicField = FieldTemplate & {
  * @param {number | undefined} parentValue - The number of dynamic fields to generate.
  * @param {string} fieldName - The base name for the generated fields.
  * @param {FieldTemplate} fieldTemplate - The template object for each field.
+ * Note: For optimal performance, memoize the fieldTemplate object to prevent unnecessary recalculations.
  * @returns {DynamicField[]} - Array of dynamically generated fields.
+ *
+ * @example
+ * const fieldTemplate = useMemo(() => ({ label: "Item", value: "" }), []);
+ * const fields = useDynamicFields(count, "items", fieldTemplate);
  */
 const useDynamicFields = (
   parentValue: number | undefined,
