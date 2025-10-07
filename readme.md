@@ -1,6 +1,15 @@
-# oreacto
+# oreacto 🚀
 
-A collection of powerful, ready-to-use React hooks in TypeScript to streamline your development. Each hook is optimized for common use cases, from route-based titles to smart filtering and infinite scrolling, making your React apps more efficient and developer-friendly.
+A collection of powerful, ready-to-use React hooks in TypeScript to streamline your development. From **AI integrations** with FREE providers to infinite scrolling and smart search - build modern React apps faster!
+
+## ✨ What's New in v1.0.5
+
+🤖 **AI Hooks** - Add AI to your app in minutes with FREE providers (Groq, Hugging Face, Together AI)!
+- `useAI` - Simple prompt → response
+- `useAIChat` - ChatGPT-like interfaces with conversation history
+- `useAIStream` - Real-time streaming for advanced use cases
+
+No complicated setup, no expensive APIs - just **free, fast AI** for your React apps!
 
 ## Installation
 
@@ -9,6 +18,22 @@ Install the package via npm:
 ```bash
 npm install oreacto
 ```
+
+## 📚 Documentation
+
+**[→ Complete Documentation](./docs/README.md)** - Comprehensive guides for all hooks
+
+**Individual Hook Guides:**
+- [useRouteTitle](./docs/hooks-guides/useRouteTitle.md) - Format titles from URL paths
+- [useSmartOSearch](./docs/hooks-guides/useSmartOSearch.md) - Filter and sort lists
+- [useInfiniteScroll](./docs/hooks-guides/useInfiniteScroll.md) - Infinite scrolling
+- [useDynamicFields](./docs/hooks-guides/useDynamicFields.md) - Dynamic form fields
+- [useAI](./docs/hooks-guides/useAI.md) - Simple AI integration
+- [useAIChat](./docs/hooks-guides/useAIChat.md) - ChatGPT-like interfaces
+- [useAIStream](./docs/hooks-guides/useAIStream.md) - Real-time AI streaming
+
+**AI Setup:**
+- [FREE API Keys Setup](./docs/FREE_AI_SETUP.md) ⭐ Get your free AI keys in 2 minutes!
 
 ## Hooks
 
@@ -113,11 +138,89 @@ const MyComponent = ({ parentValue }) => {
 };
 ```
 
-### 5. `useAIStream` 🤖
+### 5. `useAI` 🤖 **[NEW!]**
 
-Stream AI responses from OpenAI, Anthropic, or any streaming API. Perfect for building ChatGPT-like interfaces with real-time token streaming, abort control, and flexible configuration.
+The simplest way to add AI to your React app! Just pass a prompt and get a response. Works with **FREE** AI providers (Groq, Hugging Face, Together AI).
 
-> 📚 **[Read the complete AI Streaming Guide](./AI_STREAMING_GUIDE.md)** for detailed examples, integrations, and best practices.
+**Basic Usage:**
+
+```typescript
+import { useAI } from "oreacto";
+
+const MyComponent = () => {
+  const { response, loading, sendPrompt } = useAI({
+    provider: "groq", // FREE! Get key from https://console.groq.com
+    apiKey: "gsk_...",
+  });
+
+  return (
+    <div>
+      <button onClick={() => sendPrompt("Explain React hooks")}>
+        Ask AI
+      </button>
+      {loading && <p>Thinking...</p>}
+      {response && <p>{response}</p>}
+    </div>
+  );
+};
+```
+
+**Supported FREE Providers:**
+
+- **Groq** (⚡ Fastest) - Get free API key at [console.groq.com](https://console.groq.com)
+- **Hugging Face** (🤗 Most models) - Get free token at [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)
+- **Together AI** (💪 Powerful) - Get free API key at [api.together.xyz](https://api.together.xyz)
+
+> 🆓 **[Complete FREE API Keys Setup Guide](./docs/FREE_AI_SETUP.md)** - Get your free AI API keys in 2 minutes!
+
+### 6. `useAIChat` 💬 **[NEW!]**
+
+Build ChatGPT-like interfaces with conversation history management.
+
+```typescript
+import { useAIChat } from "oreacto";
+
+const ChatApp = () => {
+  const [input, setInput] = useState("");
+  const { messages, loading, sendMessage, clearChat } = useAIChat({
+    provider: "groq",
+    apiKey: process.env.GROQ_API_KEY,
+    systemPrompt: "You are a helpful coding assistant.",
+  });
+
+  const handleSend = async () => {
+    await sendMessage(input);
+    setInput("");
+  };
+
+  return (
+    <div>
+      <div className="messages">
+        {messages.map((msg, i) => (
+          <div key={i} className={msg.role}>
+            {msg.content}
+          </div>
+        ))}
+      </div>
+      <input
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        onKeyPress={(e) => e.key === "Enter" && handleSend()}
+      />
+      <button onClick={handleSend} disabled={loading}>
+        Send
+      </button>
+      <button onClick={clearChat}>Clear</button>
+    </div>
+  );
+};
+```
+
+### 7. `useAIStream` 🌊
+
+Stream AI responses in real-time for OpenAI, Anthropic, or any streaming API. Perfect for advanced use cases with token-by-token streaming.
+
+> 📚 **[Complete Hook Guide](./docs/hooks-guides/useAIStream.md)** | **[Advanced Examples](./docs/AI_STREAMING_GUIDE.md)**
 
 **Basic Usage:**
 
@@ -253,6 +356,45 @@ const { data, isStreaming, isComplete, reset } = useAIStream({
   - `fieldTemplate` (`object`): Template object for each field.
 
 - **Returns**: `Array<object>` - Array of field objects with `fieldName` and `label`.
+
+### `useAI`
+
+- **Parameters**:
+
+  - `config` (`UseAIConfig`): Configuration object
+    - `provider` (`'groq' | 'huggingface' | 'together' | 'custom'`): AI provider (default: groq)
+    - `model` (`string`): Model name (e.g., 'llama-3.1-8b', 'mixtral-8x7b')
+    - `apiKey` (`string`): API key for the provider
+    - `systemPrompt` (`string`): System prompt to guide AI behavior
+    - `temperature` (`number`): Creativity level 0-1 (default: 0.7)
+    - `maxTokens` (`number`): Max response length (default: 1024)
+    - `onSuccess` (`function`): Callback on successful response
+    - `onError` (`function`): Callback on error
+
+- **Returns**: `UseAIResult`
+  - `response` (`string | null`): The AI response
+  - `loading` (`boolean`): Whether request is in progress
+  - `error` (`Error | null`): Error object if request failed
+  - `sendPrompt` (`function`): Send a prompt to the AI
+  - `clear` (`function`): Clear the response
+
+### `useAIChat`
+
+- **Parameters**:
+
+  - `config` (`UseAIChatConfig`): Configuration object (extends UseAIConfig)
+    - All parameters from `useAI` plus:
+    - `initialMessages` (`ChatMessage[]`): Initial conversation history
+    - `maxHistory` (`number`): Maximum messages to keep (default: 50)
+
+- **Returns**: `UseAIChatResult`
+  - `messages` (`ChatMessage[]`): Array of chat messages
+  - `loading` (`boolean`): Whether request is in progress
+  - `error` (`Error | null`): Error object if request failed
+  - `sendMessage` (`function`): Send a message and get AI response
+  - `clearChat` (`function`): Clear all messages
+  - `removeMessage` (`function`): Remove specific message by index
+  - `getChatHistory` (`function`): Get user/assistant messages only
 
 ### `useAIStream`
 
