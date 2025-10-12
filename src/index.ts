@@ -4,3 +4,16 @@ export { default as useSmartOSearch } from "./hooks/useSmartOSearch";
 export { default as useDynamicFields } from "./hooks/useDynamicFields";
 export { default as useAIStream } from "./hooks/useAIStream";
 export type { AIStreamConfig, UseAIStreamResult } from "./hooks/useAIStream";
+export { default as useAI } from "./hooks/useAI";
+export type {
+  AIProvider,
+  AIModel,
+  UseAIConfig,
+  UseAIResult,
+} from "./hooks/useAI";
+export { default as useAIChat } from "./hooks/useAIChat";
+export type {
+  ChatMessage,
+  UseAIChatConfig,
+  UseAIChatResult,
+} from "./hooks/useAIChat";
