@@ -174,19 +174,36 @@ Automatic infinite scrolling with IntersectionObserver.
 
 ---
 
-### useDynamicFields
+### useAsync
 
 ```typescript
-function useDynamicFields(
-  parentValue: number | undefined,
-  fieldName: string,
-  fieldTemplate: FieldTemplate
-): DynamicField[]
+function useAsync<T>(
+  asyncFn: (...args: any[]) => Promise<T>,
+  config?: UseAsyncConfig<T>
+): UseAsyncResult<T>
 ```
 
-Generate dynamic form fields based on count.
+Complete async state management with retry logic and caching.
 
-**[→ Full Documentation](./hooks-guides/useDynamicFields.md)**
+**Config:**
+- `onSuccess?: (data: T) => void` - Success callback
+- `onError?: (error: Error) => void` - Error callback
+- `retryCount?: number` - Number of retries (default: 0)
+- `retryDelay?: number` - Delay between retries (default: 1000ms)
+- `staleTime?: number` - Cache staleness time (default: 0)
+- `cacheKey?: string` - Cache key for stale-while-revalidate
+
+**Returns:**
+- `data: T | null` - Async result
+- `loading: boolean` - Loading state
+- `error: Error | null` - Error state
+- `success: boolean` - Success state
+- `execute: (...args) => Promise<T>` - Execute function
+- `retry: () => Promise<T>` - Retry last execution
+- `reset: () => void` - Reset state
+- `cancel: () => void` - Cancel operation
+
+**[→ Full Documentation](./hooks-guides/useAsync.md)**
 
 ---
 

@@ -28,6 +28,7 @@ npm install oreacto
 - [useSmartOSearch](./docs/hooks-guides/useSmartOSearch.md) - Filter and sort lists
 - [useInfiniteScroll](./docs/hooks-guides/useInfiniteScroll.md) - Infinite scrolling
 - [useDynamicFields](./docs/hooks-guides/useDynamicFields.md) - Dynamic form fields
+- [useAsync](./docs/hooks-guides/useAsync.md) - Async state management
 - [useAI](./docs/hooks-guides/useAI.md) - Simple AI integration
 - [useAIChat](./docs/hooks-guides/useAIChat.md) - ChatGPT-like interfaces
 - [useAIStream](./docs/hooks-guides/useAIStream.md) - Real-time AI streaming
@@ -138,7 +139,40 @@ const MyComponent = ({ parentValue }) => {
 };
 ```
 
-### 5. `useAI` 🤖 **[NEW!]**
+### 5. `useAsync` ⚡ **[NEW!]**
+
+Complete async state management with built-in loading states, error handling, retry logic, and caching. Perfect for API calls and data fetching.
+
+```typescript
+import { useAsync } from "oreacto";
+
+const MyComponent = () => {
+  const { data, loading, error, execute, retry } = useAsync(
+    async (userId) => {
+      const response = await fetch(`/api/users/${userId}`);
+      if (!response.ok) throw new Error("Failed to fetch user");
+      return response.json();
+    },
+    {
+      retryCount: 3,
+      retryDelay: 1000,
+      onSuccess: (user) => console.log("User loaded:", user),
+      onError: (error) => console.error("Failed:", error),
+    }
+  );
+
+  return (
+    <div>
+      <button onClick={() => execute("123")}>Load User</button>
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error.message}</p>}
+      {data && <p>Hello, {data.name}!</p>}
+    </div>
+  );
+};
+```
+
+### 6. `useAI` 🤖 **[NEW!]**
 
 The simplest way to add AI to your React app! Just pass a prompt and get a response. Works with **FREE** AI providers (Groq, Hugging Face, Together AI).
 
@@ -356,6 +390,29 @@ const { data, isStreaming, isComplete, reset } = useAIStream({
   - `fieldTemplate` (`object`): Template object for each field.
 
 - **Returns**: `Array<object>` - Array of field objects with `fieldName` and `label`.
+
+### `useAsync`
+
+- **Parameters**:
+
+  - `asyncFn` (`function`): The async function to execute
+  - `config` (`object`): Configuration options
+    - `onSuccess` (`function`): Callback fired on successful execution
+    - `onError` (`function`): Callback fired on error
+    - `retryCount` (`number`): Number of retry attempts on failure (default: 0)
+    - `retryDelay` (`number`): Delay between retries in milliseconds (default: 1000)
+    - `staleTime` (`number`): Time in ms before data is considered stale (default: 0)
+    - `cacheKey` (`string`): Cache key for stale-while-revalidate pattern
+
+- **Returns**: `UseAsyncResult<T>`
+  - `data` (`T | null`): The result of the async operation
+  - `loading` (`boolean`): Whether the operation is in progress
+  - `error` (`Error | null`): Error object if operation failed
+  - `success` (`boolean`): Whether the operation succeeded
+  - `execute` (`function`): Execute the async function
+  - `retry` (`function`): Retry the last execution
+  - `reset` (`function`): Reset all state
+  - `cancel` (`function`): Cancel the current operation
 
 ### `useAI`
 
