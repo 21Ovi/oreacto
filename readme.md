@@ -2,7 +2,7 @@
 
 A collection of powerful, ready-to-use React hooks in TypeScript to streamline your development. From **AI integrations** with FREE providers to infinite scrolling and smart search - build modern React apps faster!
 
-## ✨ What's New in v1.0.5
+## ✨ What's New in v1.0.8
 
 🤖 **AI Hooks** - Add AI to your app in minutes with FREE providers (Groq, Hugging Face, Together AI)!
 - `useAI` - Simple prompt → response
